@@ -3,11 +3,11 @@ Manage iTunes on Windows using JavaScript with the iTunes SDK
 
 Scripts that I use to manipulate tracks saving time while curating my iTunes library.
 
-## Ensure machine is setup to run scripts 
-### (only required once per machine)
+## Ensure machine is setup to run scripts
 Ensure script file Properties General tab has the Opens with set to 
 "Microsoft Windows Based Script Host"
 which has the following path: "C:\Windows\System32\wscript.exe"
+This is only required once per machine.
 
 ## Steps
 
