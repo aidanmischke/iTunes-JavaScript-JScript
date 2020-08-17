@@ -1,0 +1,11 @@
+Make sure you are closed out of the iTunes application.
+Hold the Windows Key and press "R" to bring up the Run dialog box.
+Type 
+"C:\Program Files (x86)\iTunes\iTunes.exe" /setPrefInt allow-half-stars 1 
+or
+"E:\Program Files (x86)\iTunes\iTunes.exe" /setPrefInt allow-half-stars 1 
+then press “Enter“. 
+
+
+If that doesn’t work, try
+C:\Program Files (x86)\iTunes\iTunes.exe” /setPrefInt allow-half-stars 1
