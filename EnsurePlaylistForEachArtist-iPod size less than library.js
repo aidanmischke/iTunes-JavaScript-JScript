@@ -7,7 +7,7 @@ try {
 	//var mainLibrary = iTunesApp.LibrarySource.Playlists.ItemByName("Playlist");
 	var tracks = mainLibrary.Tracks;
 	var libraryTracksCount = tracks.Count; // Count for iTunes collection
-	
+
 	var sortingTracksPlaylist = iTunesApp.CreatePlaylist("SortingTracks");
 	var sortedTracksPlaylist = iTunesApp.CreatePlaylist("SortedTracks");
 
@@ -27,11 +27,15 @@ try {
 	var ITUserPlaylistSpecialKindNone = 0; // 	(0) No special kind
 	var artistArray = new Array();
 
-	// Delete folder as our iPod can hold entire library, so we don't need to maintain underlying GUID references of playlists inside folder.
-	folder.Delete();
+	var folder = iTunesApp.LibrarySource.Playlists.ItemByName(folderName);
 
-	folder = iTunesApp.CreateFolder(folderName);
-	
+	if (folder == undefined && folder != "") {
+		folder = iTunesApp.CreateFolder(folderName);
+	}
+	else if (folder.SpecialKind !== ITUserPlaylistSpecialKindFolder) {
+		throw "[" + folder.Name + "] is not a folder";
+	}
+
 	// Prepare my known track number convention. Increments of 50.
 	var knownTrackNumbers = [];
 
@@ -106,6 +110,17 @@ try {
 		}
 		else if (playlist.SpecialKind !== ITUserPlaylistSpecialKindNone) {
 			throw "[" + artistNameKey + "] is not a kind of music playlist";
+		}
+
+		var playlistTracks = playlist.Tracks;
+		var playlistTracksCount = playlist.Tracks.Count;
+
+		// We want to maintain playlist references for synced iPods 
+		// so we remove all tracks from playlist instead of deleting the playlist.
+		while (playlistTracksCount != 0) {
+			var currTrack = playlistTracks.Item(playlistTracksCount);
+			currTrack.Delete();
+			playlistTracksCount--;
 		}
 
 		var trackArray = artistArray[artistNameKey];
