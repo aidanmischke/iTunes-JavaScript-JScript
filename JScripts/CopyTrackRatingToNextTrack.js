@@ -1,30 +1,28 @@
 try {
-	var Tracks = WScript.CreateObject("iTunes.Application").SelectedTracks;
-	var i = 0;
-	var tracksCount = Tracks.Count;
-	var currentTrack;
-	var previousTrackRating;
+    var Tracks = WScript.CreateObject("iTunes.Application").SelectedTracks;
+    if (!Tracks) {
+        throw ("No tracks selected.");
+    }
 
-	if (tracksCount % 2 !== 0) {
-		throw ("Odd number of tracks selected.");
-	}
+    var i = 0;
+    var tracksCount = Tracks.Count;
+    var previousTrack;    
+    var currentTrack;
 
-	while (i != tracksCount) {
-		i++;
+    if (tracksCount % 2 !== 0) {
+        throw ("Odd number of tracks selected.");
+    }
+
+    while (i != tracksCount) {
+        i++;        
+		previousTrack = Tracks.Item(i);
+		i++;        
 		currentTrack = Tracks.Item(i);
-
-		if (i % 2 === 1) {
-			previousTrackRating = currentTrack.Rating;
-		}
-		else {
-			currentTrack.Rating = previousTrackRating;
-			previousTrackRating = null;
-		}
-	}
-}
-
-catch (err) {
-	WScript.Echo(err + "\n\nOr maybe no tracks selected.");
+        currentTrack.Rating = previousTrack.Rating;
+        
+    }
+} catch (err) {
+    WScript.Echo(err + "\n\nOr maybe no tracks selected.");
 }
 
 WScript.CreateObject("WScript.Shell").AppActivate("iTunes");
